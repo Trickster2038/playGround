@@ -17,7 +17,7 @@ def rower(url):
 	allnames = ("Дата рождения:",
 "Место рождения:",
 "Место проживания:",
-"Лагерное управление:",
+"Лагерное управление: ",
 "Национальность:",
 "Дата ареста:",
 "Кем приговорен:",
@@ -30,9 +30,10 @@ def rower(url):
 		if names[i].text in allnames:
 			#print(fields[i].text)
 			while (j < len(allnames)) and (allnames[j] != names[i].text):
-				j += 1
 				fieldstxt.append("NA")
+				j += 1
 			fieldstxt.append(fields[i].text)
+			j+=1
 
 	df = pd.DataFrame(data=fieldstxt)
 	df = df.T
@@ -46,7 +47,17 @@ links = []
 links = main_soup.findAll('a', class_='story-name')
 
 dfw = pd.DataFrame()
-for i in range(15):
+dfw = dfw.append((pd.DataFrame(data=("Дата рождения:",
+"Место рождения:",
+"Место проживания:",
+"Лагерное управление: ",
+"Национальность:",
+"Дата ареста:",
+"Кем приговорен:",
+"Приговор:",
+"Книга Памяти:"))).T)
+
+for i in range(100):
 	dfa = rower("https://bessmertnybarak.ru" + links[i]["href"])
 	dfw = dfw.append(dfa)
 	print("traceN = ", i)
